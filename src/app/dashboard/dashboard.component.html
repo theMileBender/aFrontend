@@ -1,0 +1,160 @@
+<div class="container">
+    <div class="row"> 
+        <div class="col-md-10" style="margin-top: 100px">
+            <ngb-tabset>
+                <ngb-tab>
+                    <ng-template ngbTabTitle >
+                        <div (click)="resetForm()">AQI to Concentration</div>
+                    </ng-template>
+                    <ng-template ngbTabContent>
+                        <form [formGroup]="aqiToConcentrationForm">
+                        <div class="container">
+                            <div class="form-group">
+                                <label>Select a Pollutant</label>
+                               <select class="form-control" formControlName="pollutant">
+                                   <option *ngFor="let p of pollutants" value="p">{{p}}</option>
+                               </select>
+                               <div class="alert-danger"
+                               *ngIf="aqiToConcentrationForm.controls['pollutant'].invalid && aqiToConcentrationForm.controls['pollutant'].dirty">
+                               <i class="fa fa-close"></i>
+                               <span *ngIf="aqiToConcentrationForm.controls['pollutant'].errors.required">You have not selected a pollutant</span>
+                               &nbsp;
+                             </div>
+                            </div>
+                            <div class="form-group">
+                                 <label >Enter the AQI:</label>   
+                                 <div class="row"> 
+                                     <div class="col-md-8">
+                                        <input formControlName="aqi" class="form-control" type="number">
+                                     </div>
+                                     <div class="col-md-4"> 
+                                         <button class="btn btn-secondary"  (click)= "convertAqiToConcentration()">Calculate</button> &nbsp;
+                                         <button class="btn btn-secondary" (click)="resetForm()">Reset</button>
+                                     </div>
+                                 </div>
+                            </div>
+                            <div class="form-group"> 
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label>Concentration</label>
+                                        <input formControlName="concentration"  class="form-control" type="text">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label>Units:</label>
+                                        <input formControlName="units" class="form-control" value="" placeholder="ug/m3">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>AQI Category</label>
+                                        <input formControlName="aqiCategory" class="form-control" type="text" name="" id="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group"> 
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                                <label>Sensitive Groups</label>
+                                                <textarea formControlName="sensitiveGroups" class="form-control" rows="10" type="text"></textarea>
+                                        </div>
+                                        <div class="col-md-4">
+                                                <label>Health Effects Statements </label>
+                                                <textarea  formControlName="healthEffects" class="form-control" rows="10" type="text"></textarea>
+                                        </div>
+                                        <div class="col-md-4">
+                                                <label>Cautionary Statements</label>
+                                                <textarea formControlName="cautionaryStatements" class="form-control" rows="10" type="text"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+                    </form>
+                    </ng-template>
+                </ngb-tab>
+                <ngb-tab>
+                        <ng-template ngbTabTitle>
+                            <div (click)="resetForm()">Concentration to AQI</div>
+                        </ng-template>
+                        <ng-template ngbTabContent>
+                            <form [formGroup]="aqiToConcentrationForm">
+                            <div class="container">
+                                <div class="form-group">
+                                    <label>Select a Pollutant</label>
+                                   <select class="form-control" formControlName="pollutant">
+                                       <option value=""> </option>
+                                       <option *ngFor="let p of pollutants" value="p">{{p}}</option>
+                                   </select>
+                                   <div class="alert-danger"
+                                   *ngIf="aqiToConcentrationForm.controls['pollutant'].invalid && aqiToConcentrationForm.controls['pollutant'].dirty">
+                                   <i class="fa fa-close"></i>
+                                   <span *ngIf="aqiToConcentrationForm.controls['pollutant'].errors.required">You have not selected a pollutant</span>
+                                   &nbsp;
+                                 </div>
+                                </div>
+                                <div class="form-group">
+                                     <label >Enter the Concentration:</label>   
+                                     <div class="row"> 
+                                         <div class="col-md-8">
+                                            <input formControlName="aqi" class="form-control" type="number">
+                                         </div>
+                                         <div class="col-md-4"> 
+                                             <button class="btn btn-secondary" (click)="convertConcentrationToAqi()" >Calculate</button> &nbsp;
+                                             <button class="btn btn-secondary" (click)="resetForm()">Reset</button>
+                                         </div>
+                                     </div>
+                                </div>
+                                <div class="form-group"> 
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label>AQI</label>
+                                            <input formControlName="concentration"  class="form-control" type="number">
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label>Units:</label>
+                                            <input formControlName="units" class="form-control" value="" placeholder="ug/m3">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label>AQI Category</label>
+                                            <input formControlName="aqiCategory" class="form-control" type="text" name="" id="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group"> 
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                    <label>Sensitive Groups</label>
+                                                    <textarea formControlName="sensitiveGroups" class="form-control" rows="10" type="text"></textarea>
+                                            </div>
+                                            <div class="col-md-4">
+                                                    <label>Health Effects Statements </label>
+                                                    <textarea  formControlName="healthEffects" class="form-control" rows="10" type="text"></textarea>
+                                            </div>
+                                            <div class="col-md-4">
+                                                    <label>Cautionary Statements</label>
+                                                    <textarea formControlName="cautionaryStatements" class="form-control" rows="10" type="text"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>
+                        </form>
+                        </ng-template>
+                    </ngb-tab>
+            </ngb-tabset>
+        </div>
+    </div>
+</div>
+
+
+<!--  -->
+
+<!-- <div class="form-group">
+        <div class="row">
+            <div class="col-md-4">
+                
+            </div>
+            <div class="col-md-4">
+                
+            </div>
+            <div class="col-md-4">
+               
+            </div>
+        </div> 
+    </div> -->
