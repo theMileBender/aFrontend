@@ -11,6 +11,22 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { LoginComponent } from './login/login.component';
+import { AuthorizationService } from './auth.service';
+import { HttpClientModule } from '@angular/common/http';
+import { SocialLoginModule, AuthServiceConfig } from "angularx-social-login";
+import { GoogleLoginProvider } from "angularx-social-login";
+import { config } from 'src/config';
+
+let config2 = new AuthServiceConfig([
+  {
+    id: GoogleLoginProvider.PROVIDER_ID,
+    provider: new GoogleLoginProvider(config.CLIENT_ID)
+  }
+]);
+
+export function provideConfig() {
+  return config2;
+}
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,9 +43,16 @@ import { LoginComponent } from './login/login.component';
     ReactiveFormsModule,
     BrowserModule,
     CommonModule,
-    BrowserAnimationsModule
+    HttpClientModule,
+    BrowserAnimationsModule,
+    SocialLoginModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: AuthServiceConfig,
+      useFactory: provideConfig
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
